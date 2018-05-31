@@ -1,0 +1,75 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.smart.tuya.meshdemo"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
+        multiDexEnabled true
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+
+    implementation 'com.orhanobut:dialogplus:1.11@aar'
+    compile "com.android.support:cardview-v7:26.1.0"
+    compile 'com.android.support:multidex:1.0.1'
+    compile "com.android.support:recyclerview-v7:26.1.0"
+    compile 'com.github.bumptech.glide:glide:3.5.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+
+    //--------------------------   以下依赖必加   ---------------------------
+    compile 'com.alibaba:fastjson:1.1.45.android'
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
+    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.7'
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    compile(name: 'tuya_home_mesh_sdk-0.1.3', ext: 'aar')
+}
+
+
+
+
+android {
+    lintOptions {
+        abortOnError false
+        disable 'InvalidPackage'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+}

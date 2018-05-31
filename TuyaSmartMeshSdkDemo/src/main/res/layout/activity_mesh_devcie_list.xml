@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.smart.tuya.meshdemo.activity.MeshDevcieListActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:id="@+id/ll_control"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/bt_start"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:text="开启连接"
+            android:onClick="doStartClient"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/bt_stop"
+            android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="50dp"
+            android:text="关闭连接"
+            android:onClick="doStopClient"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_below="@+id/ll_control"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- 因为SwipeRefreshLayout 会强行把它的子view拉成满屏的高度 这里使用item的背景色实现列表背景色 listview直接设置透明-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lv_device_list"
+            style="@style/list_view"
+            android:background="#00000000" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>
