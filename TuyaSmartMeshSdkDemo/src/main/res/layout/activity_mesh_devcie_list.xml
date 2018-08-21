@@ -29,6 +29,33 @@
             android:onClick="doStopClient"
             android:layout_weight="1" />
 
+        <Button
+            android:id="@+id/bt_status"
+            android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="50dp"
+            android:text="状态同步"
+            android:onClick="doGetStatus"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/bt_open_all"
+            android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="50dp"
+            android:text="全开"
+            android:onClick="doOpenAll"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/bt_open_close"
+            android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="50dp"
+            android:text="全关"
+            android:onClick="doCloseAll"
+            android:layout_weight="1" />
+
     </LinearLayout>
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_container"

@@ -21,6 +21,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 repositories {
@@ -48,7 +54,7 @@ dependencies {
     compile 'io.reactivex.rxjava2:rxjava:2.1.7'
     compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
     compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
-    compile(name: 'tuya_home_mesh_sdk-0.1.3', ext: 'aar')
+    compile(name: 'tuya_home_mesh_sdk-2.6.3', ext: 'aar')
 }
 
 
