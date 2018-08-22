@@ -44,6 +44,13 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:onClick="doLogout"
+                android:text="退出登录" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:onClick="doCreateFamily"
                 android:text="创建家庭" />
 
