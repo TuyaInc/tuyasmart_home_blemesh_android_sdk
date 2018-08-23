@@ -44,8 +44,8 @@ public class FamilyPresenter {
 
     public void showCreateDialog() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_custom_input, null);
-        final EditText editText1 = view.findViewById(R.id.ed_input1);
-        final EditText editText2 = view.findViewById(R.id.ed_input2);
+        final EditText editText1 = (EditText) view.findViewById(R.id.ed_input1);
+        final EditText editText2 = (EditText) view.findViewById(R.id.ed_input2);
         editText1.setHint("familyName");
         editText2.setVisibility(View.GONE);
         final DialogPlus dialogPlus = DialogPlus.newDialog(mContext)

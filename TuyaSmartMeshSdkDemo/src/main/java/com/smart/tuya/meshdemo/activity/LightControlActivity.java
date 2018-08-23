@@ -50,18 +50,18 @@ public class LightControlActivity extends AppCompatActivity implements CompoundB
     }
 
     private void initView() {
-        btn_switch = findViewById(R.id.btn_switch);
+        btn_switch = (Switch) findViewById(R.id.btn_switch);
         btn_switch.setOnCheckedChangeListener(this);
 
-        modeRadioGroup = findViewById(R.id.rg_mode);
+        modeRadioGroup = (RadioGroup) findViewById(R.id.rg_mode);
         modeRadioGroup.setOnCheckedChangeListener(this);
 
 
-        lightSeekbar = findViewById(R.id.sb_light);
-        wcSeekbar = findViewById(R.id.sb_wc);
-        redSeekbar = findViewById(R.id.sb_color_red);
-        greenSeekbar = findViewById(R.id.sb_color_green);
-        blueSeekbar = findViewById(R.id.sb_color_blue);
+        lightSeekbar = (SeekBar) findViewById(R.id.sb_light);
+        wcSeekbar = (SeekBar) findViewById(R.id.sb_wc);
+        redSeekbar = (SeekBar) findViewById(R.id.sb_color_red);
+        greenSeekbar = (SeekBar) findViewById(R.id.sb_color_green);
+        blueSeekbar = (SeekBar) findViewById(R.id.sb_color_blue);
 
         lightSeekbar.setOnSeekBarChangeListener(this);
         wcSeekbar.setOnSeekBarChangeListener(this);

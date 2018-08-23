@@ -27,15 +27,14 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="TUYA_SMART_APPKEY"
-            android:value="appkey" />
+            android:value="8ss57as59kaj9sghjqcq" />
         <meta-data
             android:name="TUYA_SMART_SECRET"
-            android:value="secret" />
+            android:value="ejhpgschncm755kq5d77kg8ddrnffryw" />
 
         <activity android:name=".activity.MeshDemoActivity">
             <intent-filter>

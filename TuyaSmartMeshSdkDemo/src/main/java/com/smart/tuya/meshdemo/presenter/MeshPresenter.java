@@ -77,8 +77,8 @@ public class MeshPresenter {
 
     public void showCreateDialog(final long homeId) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_custom_input, null);
-        final EditText editText1 = view.findViewById(R.id.ed_input1);
-        final EditText editText2 = view.findViewById(R.id.ed_input2);
+        final EditText editText1 = (EditText) view.findViewById(R.id.ed_input1);
+        final EditText editText2 = (EditText) view.findViewById(R.id.ed_input2);
         editText1.setHint("meshName 16字节以内");
         editText2.setVisibility(View.GONE);
         final DialogPlus dialogPlus = DialogPlus.newDialog(mContext)
@@ -368,8 +368,8 @@ public class MeshPresenter {
 
 
         View footView = LayoutInflater.from(mContext).inflate(R.layout.foot_tip_layout, null);
-        Button wifiConfigBtn = footView.findViewById(R.id.bt_confim1);
-        Button configBtn = footView.findViewById(R.id.bt_confim2);
+        Button wifiConfigBtn = (Button) footView.findViewById(R.id.bt_confim1);
+        Button configBtn = (Button) footView.findViewById(R.id.bt_confim2);
         wifiConfigBtn.setText("网关设备配网");
         configBtn.setText("普通子设备配网");
 
@@ -430,8 +430,8 @@ public class MeshPresenter {
     private void showWifiDialog(final long homeId, final ArrayList<SearchDeviceBean> searchBeanList) {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_custom_input, null);
-        final EditText editText1 = view.findViewById(R.id.ed_input1);
-        final EditText editText2 = view.findViewById(R.id.ed_input2);
+        final EditText editText1 = (EditText) view.findViewById(R.id.ed_input1);
+        final EditText editText2 = (EditText) view.findViewById(R.id.ed_input2);
         editText1.setHint("wifi name (2.4G)");
         editText2.setHint("wifi password");
         editText1.setText("Tuya-Test");
