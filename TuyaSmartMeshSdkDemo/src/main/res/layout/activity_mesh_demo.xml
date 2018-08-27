@@ -110,6 +110,8 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:onClick="doGroupControl"
+
                 android:text="群组控制" />
         </LinearLayout>
     </ScrollView>

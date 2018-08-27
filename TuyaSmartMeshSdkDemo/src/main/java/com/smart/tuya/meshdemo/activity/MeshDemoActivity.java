@@ -153,4 +153,21 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
     public void doLogout(View view) {
         mLoginPresenter.logout();
     }
+
+    public void doGroupControl(View view) {
+        if (FamilyPresenter.getCurrentHomeBean() != null) {
+            if(MeshPresenter.getCurrentMeshBean()!=null){
+                Intent intent=new Intent(this,MeshGroupActivity.class);
+                intent.putExtra("extra_home_id",FamilyPresenter.getCurrentHomeBean().getHomeId());
+                intent.putExtra("extra_mesh_id",MeshPresenter.getCurrentMeshBean().getMeshId());
+
+                startActivity(intent);
+            }else {
+                Toast.makeText(this, "请先初始化Mesh", Toast.LENGTH_SHORT).show();
+
+            }
+        } else {
+            Toast.makeText(this, "请先初始化家庭", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

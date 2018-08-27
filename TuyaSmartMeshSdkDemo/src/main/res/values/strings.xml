@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MeshDemo</string>
+    <string name="title_activity_mesh_group">MeshGroupActivity</string>
+    <string name="title_activity_mesh_group_dev_list">MeshGroupDevListActivity</string>
 </resources>
