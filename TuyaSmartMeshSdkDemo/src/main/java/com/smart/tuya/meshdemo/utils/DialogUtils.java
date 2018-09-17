@@ -3,6 +3,11 @@ package com.smart.tuya.meshdemo.utils;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 import com.smart.tuya.meshdemo.R;
 
@@ -29,4 +34,26 @@ public class DialogUtils {
         dialog.setCancelable(false);
         dialog.create().show();
     }
+
+    public static void customerListDialogTitleCenter(Context context, String title, RecyclerView.Adapter adapter,
+                                                     DialogInterface.OnClickListener listener) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+
+        dialog.setPositiveButton("confirm", listener);
+        View contentView =  LayoutInflater.from(context).inflate(
+                R.layout.bluemesh_dialog_custom_list, null);
+        TextView tvTitle= (TextView) contentView.findViewById(R.id.dialog_title);
+        tvTitle.setText(title);
+        RecyclerView listView = (RecyclerView) contentView.findViewById(R.id.dialog_simple_listview);
+        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        listView.setAdapter(adapter);
+
+        dialog.setView(contentView);
+        final AlertDialog create = dialog.create();
+        create.setCanceledOnTouchOutside(true);
+        create.show();
+    }
+
+
+
 }

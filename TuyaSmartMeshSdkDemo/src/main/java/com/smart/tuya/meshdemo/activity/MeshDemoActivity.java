@@ -12,6 +12,7 @@ import com.smart.tuya.meshdemo.presenter.FamilyPresenter;
 import com.smart.tuya.meshdemo.presenter.LoginPresenter;
 import com.smart.tuya.meshdemo.presenter.MeshPresenter;
 import com.smart.tuya.meshdemo.view.IMeshDemoView;
+import com.tuya.smart.android.user.api.ILogoutCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 
 import static com.smart.tuya.meshdemo.presenter.MeshPresenter.GPS_REQUEST_CODE;
@@ -138,6 +139,27 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
                 Intent intent=new Intent(this,MeshDevcieListActivity.class);
                 intent.putExtra("extra_home_id",FamilyPresenter.getCurrentHomeBean().getHomeId());
                 intent.putExtra("extra_mesh_id",MeshPresenter.getCurrentMeshBean().getMeshId());
+                startActivity(intent);
+            }else {
+                Toast.makeText(this, "请先初始化Mesh", Toast.LENGTH_SHORT).show();
+
+            }
+        } else {
+            Toast.makeText(this, "请先初始化家庭", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void doLogout(View view) {
+        mLoginPresenter.logout();
+    }
+
+    public void doGroupControl(View view) {
+        if (FamilyPresenter.getCurrentHomeBean() != null) {
+            if(MeshPresenter.getCurrentMeshBean()!=null){
+                Intent intent=new Intent(this,MeshGroupActivity.class);
+                intent.putExtra("extra_home_id",FamilyPresenter.getCurrentHomeBean().getHomeId());
+                intent.putExtra("extra_mesh_id",MeshPresenter.getCurrentMeshBean().getMeshId());
+
                 startActivity(intent);
             }else {
                 Toast.makeText(this, "请先初始化Mesh", Toast.LENGTH_SHORT).show();

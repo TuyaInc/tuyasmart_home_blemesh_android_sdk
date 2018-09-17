@@ -1,5 +1,6 @@
 package com.smart.tuya.meshdemo.presenter;
 
+
 import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -22,18 +23,23 @@ import com.smart.tuya.meshdemo.utils.CheckPermissionUtils;
 import com.smart.tuya.meshdemo.utils.DialogUtils;
 import com.smart.tuya.meshdemo.view.IMeshDeviceListView;
 import com.tuya.smart.android.common.utils.L;
+import com.tuya.smart.bluemesh.bean.DpsParseBean;
 import com.tuya.smart.bluemesh.mesh.device.ITuyaBlueMeshDevice;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.home.sdk.api.ITuyaHome;
 import com.tuya.smart.home.sdk.bean.HomeBean;
 import com.tuya.smart.home.sdk.callback.ITuyaHomeResultCallback;
-import com.tuya.smart.sdk.TuyaBlueMesh;
 import com.tuya.smart.sdk.api.IResultCallback;
 import com.tuya.smart.sdk.api.bluemesh.IMeshDevListener;
 import com.tuya.smart.sdk.bean.BlueMeshBean;
 import com.tuya.smart.sdk.bean.DeviceBean;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
 /**
  * Created by zhusg on 2018/5/29.
@@ -68,7 +74,7 @@ public class MeshDeviceListPresenter {
         @Override
         public void onDpUpdate(String nodeId, String dps, boolean isFromLocal) {
             DeviceBean deviceBean = mTuyaBlueMeshDevice.getMeshSubDevBeanByNodeId(nodeId);
-            L.d(TAG, "onDpUpdate nodeId:" + nodeId + "  dps:" + dps);
+            Log.d(TAG, "onDpUpdate nodeId:" + nodeId + "  dps:" + dps);
 
         }
 
@@ -81,11 +87,11 @@ public class MeshDeviceListPresenter {
         @Override
         public void onStatusChanged(List<String> online, List<String> offline, String gwId) {
             if (online != null) {
-                L.d(TAG, "onStatusChanged  onLine:" + online.toString());
+                Log.d(TAG, "onStatusChanged  onLine:" + online.toString());
 
             }
             if (offline != null) {
-                L.d(TAG, "onStatusChanged  offline:" + offline.toString());
+                Log.d(TAG, "onStatusChanged  offline:" + offline.toString());
             }
 
             if (online != null) {
@@ -151,7 +157,7 @@ public class MeshDeviceListPresenter {
         mTuyaHome = TuyaHomeSdk.newHomeInstance(homeId);
         this.mView = view;
         this.meshId = meshId;
-        meshBean = TuyaBlueMesh.getMeshInstance().getBlueMeshBean(meshId);
+        meshBean = TuyaHomeSdk.getMeshInstance().getBlueMeshBean(meshId);
         mTuyaBlueMeshDevice = TuyaHomeSdk.newBlueMeshDeviceInstance(meshId);
         mTuyaBlueMeshDevice.registerMeshDevListener(iMeshDevListener);
 
@@ -335,4 +341,121 @@ public class MeshDeviceListPresenter {
         }
 
     }
+
+    /**
+     * 查询所有设备的信息
+     */
+
+
+    public void getStatusAll() {
+        //List<DeviceBean> deviceBeanList=TuyaHomeSdk.getDataInstance().getHomeDeviceList(homeId);
+        mTuyaBlueMeshDevice.queryAllStatusByLocal(new IResultCallback() {
+            @Override
+            public void onError(String s, String s1) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+        });
+//        for(DeviceBean bean:deviceBeanList){
+//            mTuyaBlueMeshDevice.querySubDevStatusByLocal(bean.getCategory(), bean.getNodeId(), new IResultCallback() {
+//                @Override
+//                public void onError(String s, String s1) {
+//
+//                }
+//
+//                @Override
+//                public void onSuccess() {
+//
+//                }
+//            });
+//            try {
+//                Thread.sleep(350);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+    }
+
+    public void doOpenAll() {
+        final String dps = "{\"1\":true}";
+
+        final List<DeviceBean> deviceBeanList = TuyaHomeSdk.getDataInstance().getHomeDeviceList(homeId);
+        Observable.interval(0, 350, TimeUnit.MILLISECONDS)
+                .map(new Function<Long, DeviceBean>() {
+                    @Override
+                    public DeviceBean apply(Long aLong) throws Exception {
+                        return deviceBeanList.get(aLong.intValue());
+                    }
+                }).take(deviceBeanList.size())
+                .subscribe(new Consumer<DeviceBean>() {
+                    @Override
+                    public void accept(final DeviceBean devBean) throws Exception {
+                        L.e(TAG, "call:" + System.currentTimeMillis() + "  ");
+                        mTuyaBlueMeshDevice.publishDps(devBean.getNodeId(), devBean.getCategory(), dps, new IResultCallback() {
+                            @Override
+                            public void onError(String s, String errorMsg) {
+                                L.e(TAG, devBean.getName() + "  发送失败");
+                            }
+
+                            @Override
+                            public void onSuccess() {
+                                L.e(TAG, devBean.getName() + "  发送成功");
+                            }
+                        });
+                    }
+                });
+//        for (final DeviceBean devBean : deviceBeanList) {
+//            new Thread(){
+//                @Override
+//                public void run() {
+//                    mTuyaBlueMeshDevice.publishDps(devBean.getNodeId(), devBean.getCategory(), dps, new IResultCallback() {
+//                        @Override
+//                        public void onError(String s, String errorMsg) {
+//                            L.e(TAG,devBean.getName()+"  发送失败");
+//                        }
+//
+//                        @Override
+//                        public void onSuccess() {
+//                            L.e(TAG,devBean.getName()+"  发送成功");
+//                        }
+//                    });
+//                }
+//            }.start();
+
+
+    }
+
+    public void doCloseAll() {
+        final String dps = "{\"1\":false}";
+        final List<DeviceBean> deviceBeanList = TuyaHomeSdk.getDataInstance().getHomeDeviceList(homeId);
+        Observable.interval(0, 350, TimeUnit.MILLISECONDS)
+                .map(new Function<Long, DeviceBean>() {
+                    @Override
+                    public DeviceBean apply(Long aLong) throws Exception {
+                        return deviceBeanList.get(aLong.intValue());
+                    }
+                }).take(deviceBeanList.size())
+                .subscribe(new Consumer<DeviceBean>() {
+                    @Override
+                    public void accept(final DeviceBean devBean) throws Exception {
+                        L.e(TAG, "call:" + System.currentTimeMillis() + "  ");
+                        mTuyaBlueMeshDevice.publishDps(devBean.getNodeId(), devBean.getCategory(), dps, new IResultCallback() {
+                            @Override
+                            public void onError(String s, String errorMsg) {
+                                L.e(TAG, devBean.getName() + "  发送失败");
+                            }
+
+                            @Override
+                            public void onSuccess() {
+                                L.e(TAG, devBean.getName() + "  发送成功");
+                            }
+                        });
+                    }
+                });
+    }
+
 }

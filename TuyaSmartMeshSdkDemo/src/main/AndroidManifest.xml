@@ -77,7 +77,15 @@
             android:name=".activity.ConfigTipActivity"
             android:theme="@style/dialog" />
         <activity android:name=".activity.MeshDevcieListActivity" />
-        <activity android:name=".activity.LightControlActivity"></activity>
+        <activity android:name=".activity.LightControlActivity" />
+        <activity
+            android:name=".activity.MeshGroupActivity"
+            android:label="@string/title_activity_mesh_group"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.MeshGroupDevListActivity"
+            android:label="@string/title_activity_mesh_group_dev_list"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -15,7 +15,7 @@
         <Button
             android:id="@+id/bt_start"
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:text="开启连接"
             android:onClick="doStartClient"
             android:layout_weight="1" />
@@ -24,9 +24,36 @@
             android:id="@+id/bt_stop"
             android:layout_width="0dp"
             android:layout_marginLeft="20dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:text="关闭连接"
             android:onClick="doStopClient"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/bt_status"
+            android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:text="状态同步"
+            android:onClick="doGetStatus"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/bt_open_all"
+            android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:text="全开"
+            android:onClick="doOpenAll"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/bt_open_close"
+            android:layout_width="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="wrap_content"
+            android:text="全关"
+            android:onClick="doCloseAll"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -35,7 +62,6 @@
         android:layout_below="@+id/ll_control"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!-- 因为SwipeRefreshLayout 会强行把它的子view拉成满屏的高度 这里使用item的背景色实现列表背景色 listview直接设置透明-->
         <android.support.v7.widget.RecyclerView
             android:id="@+id/lv_device_list"
             style="@style/list_view"

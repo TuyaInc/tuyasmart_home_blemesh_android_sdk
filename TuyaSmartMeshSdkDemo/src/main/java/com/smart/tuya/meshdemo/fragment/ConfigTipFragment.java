@@ -12,17 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.ViewHolder;
 import com.smart.tuya.meshdemo.R;
 import com.tuya.smart.bluemesh.mesh.builder.TuyaBlueMeshActivatorBuilder;
 import com.tuya.smart.bluemesh.mesh.config.ITuyaBlueMeshActivator;
 import com.tuya.smart.bluemesh.mesh.config.ITuyaBlueMeshActivatorListener;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
-import com.tuya.smart.sdk.TuyaBlueMesh;
 import com.tuya.smart.sdk.bean.BlueMeshBean;
 import com.tuya.smart.sdk.bean.DeviceBean;
 import com.tuya.smart.tuyamesh.bean.SearchDeviceBean;
@@ -110,7 +106,7 @@ public class ConfigTipFragment extends Fragment implements View.OnClickListener 
         succCount = 0;
         failCount = 0;
         updateView();
-        BlueMeshBean blueMeshBean = TuyaBlueMesh.getMeshInstance().getBlueMeshBean(meshId);
+        BlueMeshBean blueMeshBean = TuyaHomeSdk.getMeshInstance().getBlueMeshBean(meshId);
         if (blueMeshBean == null) {
             Log.e(TAG, "blueMeshBean is null");
         }
@@ -122,15 +118,16 @@ public class ConfigTipFragment extends Fragment implements View.OnClickListener 
                 //超时时间
                 .setTimeOut(CONFIG_DEV_MAX_TIME)
                 .setTuyaBlueMeshActivatorListener(new ITuyaBlueMeshActivatorListener() {
+
                     @Override
-                    public void onSuccess(DeviceBean deviceBean) {
+                    public void onSuccess(String mac, DeviceBean deviceBean) {
                         Log.d(TAG, "subDevBean onSuccess: " + deviceBean.getName());
                         succCount++;
                         updateView();
                     }
 
                     @Override
-                    public void onError(String errorCode, String errorMsg) {
+                    public void onError(String mac, String errorCode, String errorMsg) {
                         Log.d(TAG, "config mesh error" + errorCode + " " + errorMsg);
                         failCount = 0;
                         updateView();
@@ -157,7 +154,7 @@ public class ConfigTipFragment extends Fragment implements View.OnClickListener 
         succCount = 0;
         failCount = 0;
         updateView();
-        BlueMeshBean blueMeshBean = TuyaBlueMesh.getMeshInstance().getBlueMeshBean(meshId);
+        BlueMeshBean blueMeshBean = TuyaHomeSdk.getMeshInstance().getBlueMeshBean(meshId);
         if (blueMeshBean == null) {
             Log.e(TAG, "blueMeshBean is null");
         }
@@ -171,7 +168,7 @@ public class ConfigTipFragment extends Fragment implements View.OnClickListener 
                 .setTuyaBlueMeshActivatorListener(new ITuyaBlueMeshActivatorListener() {
 
                     @Override
-                    public void onSuccess(DeviceBean devBean) {
+                    public void onSuccess(String mac, DeviceBean deviceBean) {
                         //单个设备配网成功回调
                         Log.d(TAG, "startConfig  success");
                         succCount++;
@@ -179,7 +176,7 @@ public class ConfigTipFragment extends Fragment implements View.OnClickListener 
                     }
 
                     @Override
-                    public void onError(String errorCode, String errorMsg) {
+                    public void onError(String mac, String errorCode, String errorMsg) {
                         //单个设备配网失败回调
                         Log.d(TAG, "errorCode: " + errorCode + " errorMsg: " + errorMsg);
                         failCount = 0;

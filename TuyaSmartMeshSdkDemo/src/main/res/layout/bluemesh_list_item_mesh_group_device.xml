@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:background="#f0f0f0"
+    android:minHeight="90dp"
+    android:orientation="vertical"
+    android:padding="7dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bluemesh_round_shape">
+
+        <ImageView
+            android:id="@+id/iv_device_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tv_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_alignTop="@+id/iv_device_icon"
+            android:layout_toEndOf="@+id/iv_device_icon"
+            android:layout_toRightOf="@+id/iv_device_icon"
+            android:gravity="center"
+            android:text="11111111"
+            android:layout_marginTop="8dp"
+            android:textColor="#626262" />
+
+
+        <ImageView
+            android:id="@+id/iv_device_list_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_device"
+            android:layout_toRightOf="@+id/iv_device_icon"
+            android:text="11111111"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:textColor="#8A8E91" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

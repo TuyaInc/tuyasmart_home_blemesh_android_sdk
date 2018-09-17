@@ -150,9 +150,21 @@ public class MeshDevcieListActivity extends AppCompatActivity implements DeviceL
         meshDeviceListPresenter.stopClient();
     }
 
+    public void doGetStatus(View view){
+        meshDeviceListPresenter.getStatusAll();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         meshDeviceListPresenter.onDestroy();
+    }
+
+    public void doCloseAll(View view) {
+        meshDeviceListPresenter.doCloseAll();
+    }
+
+    public void doOpenAll(View view) {
+        meshDeviceListPresenter.doOpenAll();
     }
 }
