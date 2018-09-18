@@ -74,6 +74,9 @@
             </intent-filter>
         </service>
 
+        <service android:name="com.tuya.smart.mqtt.MqttService" android:stopWithTask="true"/>
+
+
         <activity
             android:name=".activity.ConfigTipActivity"
             android:theme="@style/dialog" />
