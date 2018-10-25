@@ -16,17 +16,12 @@ import com.smart.tuya.meshdemo.callback.IMeshOperateGroupListener;
 import com.smart.tuya.meshdemo.model.MeshGroupDeviceListModel;
 import com.smart.tuya.meshdemo.utils.DialogUtils;
 import com.smart.tuya.meshdemo.view.IMeshGroupDeviceListView;
+import com.tuya.smart.android.blemesh.api.ITuyaBlueMeshDevice;
 import com.tuya.smart.android.common.utils.L;
-import com.tuya.smart.android.device.event.DeviceEventSender;
-import com.tuya.smart.android.mvp.bean.Result;
 import com.tuya.smart.android.mvp.presenter.BasePresenter;
-import com.tuya.smart.bluemesh.mesh.TuyaBlueMeshClient;
-import com.tuya.smart.bluemesh.mesh.device.ITuyaBlueMeshDevice;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
-import com.tuya.smart.sdk.TuyaSdk;
 import com.tuya.smart.sdk.api.IResultCallback;
 import com.tuya.smart.sdk.api.ITuyaGroup;
-import com.tuya.smart.sdk.api.bluemesh.ITuyaBlueMesh;
 import com.tuya.smart.sdk.bean.DeviceBean;
 import com.tuya.smart.sdk.bean.GroupBean;
 

@@ -19,7 +19,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:id="@+id/fenggexian"
         android:background="#b0b0b0"
         android:layout_alignParentBottom="true"
         />

@@ -12,12 +12,9 @@ import android.widget.Toast;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.smart.tuya.meshdemo.R;
-import com.smart.tuya.meshdemo.utils.CheckPermissionUtils;
 import com.smart.tuya.meshdemo.utils.DialogUtils;
-import com.smart.tuya.meshdemo.view.IMeshDeviceListView;
 import com.smart.tuya.meshdemo.view.IMeshGroupListView;
-import com.tuya.smart.bluemesh.mesh.device.ITuyaBlueMeshDevice;
-import com.tuya.smart.home.interior.mesh.TuyaBlueMeshDevice;
+import com.tuya.smart.android.blemesh.api.ITuyaBlueMeshDevice;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.home.sdk.api.ITuyaHome;
 import com.tuya.smart.home.sdk.bean.HomeBean;
@@ -112,7 +109,7 @@ public class MeshGroupListPresenter {
         if (TextUtils.isEmpty(enableLocalId)) {
             Toast.makeText(mContext,"群组已满",Toast.LENGTH_SHORT).show();
         }else{
-            TuyaBlueMeshDevice mITuyaBlueMesh = new TuyaBlueMeshDevice(meshId);
+            ITuyaBlueMeshDevice mITuyaBlueMesh = TuyaHomeSdk.newBlueMeshDeviceInstance(meshId);
             //跨小类创建群组
             mITuyaBlueMesh.addGroup(groupName, "FF01", enableLocalId, new IAddGroupCallback() {
                 @Override
@@ -128,6 +125,7 @@ public class MeshGroupListPresenter {
                 }
             });
         }
+
     }
 
     public String getEnableGroupId(String meshId) {

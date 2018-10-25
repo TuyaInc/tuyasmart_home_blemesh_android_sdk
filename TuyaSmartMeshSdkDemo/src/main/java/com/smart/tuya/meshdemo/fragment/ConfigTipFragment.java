@@ -15,13 +15,14 @@ import android.widget.TextView;
 
 
 import com.smart.tuya.meshdemo.R;
-import com.tuya.smart.bluemesh.mesh.builder.TuyaBlueMeshActivatorBuilder;
-import com.tuya.smart.bluemesh.mesh.config.ITuyaBlueMeshActivator;
-import com.tuya.smart.bluemesh.mesh.config.ITuyaBlueMeshActivatorListener;
+
+import com.tuya.smart.android.blemesh.api.ITuyaBlueMeshActivatorListener;
+import com.tuya.smart.android.blemesh.bean.SearchDeviceBean;
+import com.tuya.smart.android.blemesh.builder.TuyaBlueMeshActivatorBuilder;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
+import com.tuya.smart.sdk.api.bluemesh.ITuyaBlueMeshActivator;
 import com.tuya.smart.sdk.bean.BlueMeshBean;
 import com.tuya.smart.sdk.bean.DeviceBean;
-import com.tuya.smart.tuyamesh.bean.SearchDeviceBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,7 +141,7 @@ public class ConfigTipFragment extends Fragment implements View.OnClickListener 
                     }
                 });
 
-        iTuyaBlueMeshActivator = TuyaHomeSdk.getBlueMeshActivatorInstance().newActivator(tuyaBlueMeshActivatorBuilder);
+        iTuyaBlueMeshActivator = TuyaHomeSdk.getTuyaBlueMeshConfig().newActivator(tuyaBlueMeshActivatorBuilder);
         iTuyaBlueMeshActivator.startActivator();
 
     }
@@ -192,7 +193,7 @@ public class ConfigTipFragment extends Fragment implements View.OnClickListener 
                     }
                 });
 
-        iTuyaBlueMeshActivator = TuyaHomeSdk.getBlueMeshActivatorInstance().newWiFiActivator(tuyaBlueMeshActivatorBuilder);
+        iTuyaBlueMeshActivator = TuyaHomeSdk.getTuyaBlueMeshConfig().newWifiActivator(tuyaBlueMeshActivatorBuilder);
         iTuyaBlueMeshActivator.startActivator();
 
     }

@@ -59,7 +59,7 @@ TuyaHomeSdk.newBlueMeshDeviceInstance(meshId).removeMesh(new IResultCallback() {
     }
 });
 
-```  
+```
 
 ### 从缓存中获取Mesh数据
 ##### 【方法调用】
@@ -89,10 +89,10 @@ List<DeviceBean> meshSubDevList = TuyaHomeSdk.newBlueMeshDeviceInstance("meshId"
 ##### 【方法调用】
 ```
 //初始化mesh
-TuyaHomeSdk.initMesh(String meshId);       
+TuyaHomeSdk.getTuyaBlueMeshClient().initMesh(String meshId);       
 
 //销毁当前mesh
-TuyaHomeSdk.onDestroyMesh();       
+TuyaHomeSdk.getTuyaBlueMeshClient().destroyMesh();       
 ```
 
 
@@ -152,10 +152,12 @@ ITuyaBlueMeshSearchListener iTuyaBlueMeshSearchListener=new ITuyaBlueMeshSearchL
     }
 };
 
-mMeshSearch = new TuyaBlueMeshSearch.Builder()
-        .setMeshName("out_of_mesh")		//要扫描设备的名称（默认会是out_of_mesh，设备处于配网状态下的名称）
-        .setTimeOut(8)		//扫描时长 单位秒
-        .setTuyaBlueMeshSearchListener(iTuyaBlueMeshSearchListener).build();
+SearchBuilder searchBuilder = new SearchBuilder()
+				.setMeshName("out_of_mesh")        //要扫描设备的名称（默认会是out_of_mesh，设备处于配网状态下的名称）
+                .setTimeOut(100)        //扫描时长 单位秒
+                .setTuyaBlueMeshSearchListener(iTuyaBlueMeshSearchListener).build();
+
+ITuyaBlueMeshSearch mMeshSearch = TuyaHomeSdk.getTuyaBlueMeshConfig().newTuyaBlueMeshSearch(searchBuilder);
 
 //开启扫描
 mMeshSearch.startSearch();
@@ -262,7 +264,8 @@ TuyaBlueMeshActivatorBuilder tuyaBlueMeshActivatorBuilder = new TuyaBlueMeshActi
                         L.d(TAG, "config mesh onFinish： ");
                     }
                 });
-ITuyaBlueMeshActivator iTuyaBlueMeshActivator = TuyaHomeSdk.getBlueMeshActivatorInstance().newActivator(tuyaBlueMeshActivatorBuilder);
+ITuyaBlueMeshActivator iTuyaBlueMeshActivator = TuyaHomeSdk.getTuyaBlueMeshConfig().newActivator(tuyaBlueMeshActivatorBuilder);
+
 iTuyaBlueMeshActivator.startActivator();
 
 
@@ -294,7 +297,7 @@ TuyaBlueMeshActivatorBuilder tuyaBlueMeshActivatorBuilder = new TuyaBlueMeshActi
                         L.d(TAG, "subDevBean onFinish: ");             
                     }
                 });
-ITuyaBlueMeshActivator iTuyaBlueMeshActivator = TuyaHomeSdk.getBlueMeshActivatorInstance().newWiFiActivator(tuyaBlueMeshActivatorBuilder);
+ITuyaBlueMeshActivator iTuyaBlueMeshActivator = TuyaHomeSdk.getTuyaBlueMeshConfig().newWifiActivator(tuyaBlueMeshActivatorBuilder);
 iTuyaBlueMeshActivator.startActivator();
 
 ```
@@ -337,7 +340,7 @@ if(deviceBean.isBleMesh()){
 
 ```
 
- 
+
 ### 控制指令下发
 #####【指令格式】
 发送控制指令按照以下格式： {"(dpId)":"(dpValue)"}  
@@ -471,12 +474,12 @@ mTuyaBlueMeshDevice.registerMeshDevListener(new IMeshDevListener() {
 
 ### 创建群组
 #####【指令格式】
-暂时一个mesh网内只支持创建8个群组 8个群组的localId由本地进行维护（分别对应"8001"到"8008"）
+mesh网内支持创建 28672 个群组  返回时id范围 8000 ~ EFFF  （16进制）  由本地进行维护
 ##### 【方法调用】
 ```
 * @param name			群组名称
-* @param pcc			群组中设备的大小类  (暂时不支持跨小类进行群组操作)
-* @param localId		群组的localId
+* @param pcc			群组中设备的大小类  (支持跨小类创建  FF01 表示覆盖灯大类)
+* @param localId		群组的localId  (范围 8000 ~ EFFF 16进制字符串)
 * @param callback		回调
 public void addGroup(String name, String pcc, String localId,IAddGroupCallback callback);
 ```
@@ -764,7 +767,7 @@ TuyaBlueMeshOtaBuilder build = new TuyaBlueMeshOtaBuilder()
         .setVersion("version")
         .setTuyaBlueMeshActivatorListener(mListener)
         .bulid();
-ITuyaBlueMeshOta  = TuyaHomeSdk.newMeshOtaManager(build);
+ITuyaBlueMeshOta  = TuyaHomeSdk.newMeshOtaManagerInstance(build);
 
 //开始升级
 mMeshOta.startOta();
@@ -795,7 +798,7 @@ private IOtaListener iOtaListener = new IOtaListener() {
         }
     };
 
-ITuyaOta iTuyaOta = TuyaOta.newOtaInstance(mDevID);
+ITuyaOta iTuyaOta = TuyaHomeSdk.newOTAInstance(mDevID);
 iTuyaOta.setOtaListener(mOtaListener);
 //开始升级
 iTuyaOta.startOta();

@@ -33,14 +33,15 @@ import com.smart.tuya.meshdemo.utils.BluetoothUtils;
 import com.smart.tuya.meshdemo.utils.CheckPermissionUtils;
 import com.smart.tuya.meshdemo.utils.DialogUtils;
 import com.smart.tuya.meshdemo.view.IMeshDemoView;
-import com.tuya.smart.bluemesh.mesh.TuyaBlueMeshSearch;
-import com.tuya.smart.bluemesh.mesh.search.ITuyaBlueMeshSearchListener;
+import com.tuya.smart.android.blemesh.api.ITuyaBlueMeshSearch;
+import com.tuya.smart.android.blemesh.api.ITuyaBlueMeshSearchListener;
+import com.tuya.smart.android.blemesh.bean.SearchDeviceBean;
+import com.tuya.smart.android.blemesh.builder.SearchBuilder;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.home.sdk.api.ITuyaHome;
 import com.tuya.smart.home.sdk.callback.ITuyaResultCallback;
 import com.tuya.smart.sdk.api.IResultCallback;
 import com.tuya.smart.sdk.bean.BlueMeshBean;
-import com.tuya.smart.tuyamesh.bean.SearchDeviceBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,7 +163,7 @@ public class MeshPresenter {
 
     public void initMesh(BlueMeshBean blueMeshBean) {
         if (blueMeshBean != null && !TextUtils.isEmpty(blueMeshBean.getMeshId())) {
-            TuyaHomeSdk.initMesh(blueMeshBean.getMeshId());
+            TuyaHomeSdk.getTuyaBlueMeshClient().initMesh(blueMeshBean.getMeshId());
             mBlueMeshBean = blueMeshBean;
             iMeshDemoView.updateTip();
         }
@@ -196,7 +197,7 @@ public class MeshPresenter {
     }
 
     public void destroyMesh() {
-        TuyaHomeSdk.onDestroyMesh();
+        TuyaHomeSdk.getTuyaBlueMeshClient().destroyMesh();
         mBlueMeshBean = null;
         iMeshDemoView.updateTip();
 
@@ -262,8 +263,9 @@ public class MeshPresenter {
 
         final ArrayAdapter adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, searchNameList);
         final ArrayList<SearchDeviceBean> searchList = new ArrayList();
-        final TuyaBlueMeshSearch mMeshSearch = new TuyaBlueMeshSearch.Builder()
-                .setMeshName("out_of_mesh")        //要扫描设备的名称（默认会是out_of_mesh，设备处于配网状态下的名称）
+
+
+        SearchBuilder searchBuilder = new SearchBuilder().setMeshName("out_of_mesh")        //要扫描设备的名称（默认会是out_of_mesh，设备处于配网状态下的名称）
                 .setTimeOut(100)        //扫描时长 单位秒
                 .setTuyaBlueMeshSearchListener(new ITuyaBlueMeshSearchListener() {
                     @Override
@@ -287,6 +289,9 @@ public class MeshPresenter {
 
                     }
                 }).build();
+        final ITuyaBlueMeshSearch mMeshSearch = TuyaHomeSdk.getTuyaBlueMeshConfig().newTuyaBlueMeshSearch(searchBuilder);
+
+
         mMeshSearch.startSearch();
         View headView = LayoutInflater.from(mContext).inflate(R.layout.head_tip_layout, null);
         ((TextView) headView.findViewById(R.id.tv_head_title)).setText("扫描结果");
@@ -336,7 +341,7 @@ public class MeshPresenter {
 
         final ArrayAdapter adapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_list_item_1, searchNameList);
 
-        final TuyaBlueMeshSearch mMeshSearch = new TuyaBlueMeshSearch.Builder()
+        SearchBuilder searchBuilder = new SearchBuilder()
                 .setMeshName("out_of_mesh")        //要扫描设备的名称（默认会是out_of_mesh，设备处于配网状态下的名称）
                 .setTimeOut(100)        //扫描时长 单位秒
                 .setTuyaBlueMeshSearchListener(new ITuyaBlueMeshSearchListener() {
@@ -360,6 +365,8 @@ public class MeshPresenter {
                         Toast.makeText(mContext, "扫描结束", Toast.LENGTH_SHORT).show();
                     }
                 }).build();
+
+        final ITuyaBlueMeshSearch mMeshSearch = TuyaHomeSdk.getTuyaBlueMeshConfig().newTuyaBlueMeshSearch(searchBuilder);
         mMeshSearch.startSearch();
 
 
@@ -416,7 +423,7 @@ public class MeshPresenter {
                 } else if (searchList.isEmpty()) {
                     Toast.makeText(mContext, "未扫描到待配网设备", Toast.LENGTH_SHORT).show();
                 } else {
-                    doMeshWifiConfig(homeId,searchList,dialogPlus);
+                    doMeshWifiConfig(homeId, searchList, dialogPlus);
 
                 }
             }
@@ -449,9 +456,9 @@ public class MeshPresenter {
                 String wifiName = editText1.getText().toString();
                 String wifiPwd = editText2.getText().toString();
 
-                if (TextUtils.isEmpty(wifiName)||TextUtils.isEmpty(wifiPwd)) {
+                if (TextUtils.isEmpty(wifiName) || TextUtils.isEmpty(wifiPwd)) {
                     Toast.makeText(mContext, "mesh不能为空", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Intent intent = new Intent(mContext, ConfigTipActivity.class);
                     Bundle bu = new Bundle();
                     bu.putParcelableArrayList("extra_found_device", searchBeanList);
@@ -512,16 +519,16 @@ public class MeshPresenter {
             }
         }
 
-        if(searchBeanList.isEmpty()) {
+        if (searchBeanList.isEmpty()) {
             Toast.makeText(mContext, "扫描列表中 无mesh网关设备", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             dialogPlus.dismiss();
             Observable.timer(500, TimeUnit.MILLISECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
-                            showWifiDialog(homeId,searchBeanList);
+                            showWifiDialog(homeId, searchBeanList);
 
                         }
                     });

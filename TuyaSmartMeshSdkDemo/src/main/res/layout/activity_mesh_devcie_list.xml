@@ -13,7 +13,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/bt_start"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="开启连接"
@@ -21,7 +20,6 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/bt_stop"
             android:layout_width="0dp"
             android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
@@ -30,7 +28,6 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/bt_status"
             android:layout_width="0dp"
             android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
@@ -39,7 +36,6 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/bt_open_all"
             android:layout_width="0dp"
             android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"
@@ -48,7 +44,6 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/bt_open_close"
             android:layout_width="0dp"
             android:layout_marginLeft="20dp"
             android:layout_height="wrap_content"

@@ -1,18 +1,15 @@
 package com.smart.tuya.meshdemo.presenter;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 
 import com.smart.tuya.meshdemo.view.IControlView;
+import com.tuya.smart.android.blemesh.api.ITuyaBlueMeshDevice;
 import com.tuya.smart.android.common.utils.L;
-import com.tuya.smart.bluemesh.mesh.device.ITuyaBlueMeshDevice;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.sdk.api.IResultCallback;
 import com.tuya.smart.sdk.api.bluemesh.IMeshDevListener;
 import com.tuya.smart.sdk.bean.DeviceBean;
-import com.tuya.smart.tuyamesh.utils.ArraysUtils;
-
 import java.util.List;
 
 /**
@@ -32,7 +29,7 @@ public class ControlPresenter {
         this.mView=view;
         this.mDevId = devId;
         devBean = TuyaHomeSdk.getDataInstance().getDeviceBean(mDevId);
-        mTuyaBlueMeshDevice = TuyaHomeSdk.getTuyaBlueMeshClient().newBlueMeshDeviceManager(devBean.getMeshId());
+        mTuyaBlueMeshDevice = TuyaHomeSdk.newBlueMeshDeviceInstance(devBean.getMeshId());
 
 
         mTuyaBlueMeshDevice.registerMeshDevListener(new IMeshDevListener() {
@@ -56,8 +53,7 @@ public class ControlPresenter {
 
             @Override
             public void onRawDataUpdate(byte[] bytes) {
-                //收到Raw类型
-                L.d(TAG, "onRawDataUpdate:" + ArraysUtils.bytesToHexString(bytes, ":"));
+
             }
 
             @Override
