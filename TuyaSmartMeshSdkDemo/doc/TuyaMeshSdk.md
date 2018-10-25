@@ -117,10 +117,10 @@ TuyaHomeSdk.getTuyaBlueMeshClient().stopSearch();
 ```
 
 ##### 【注意事项】 
-######开启连接后，会在后台不断的去扫描周围可连接设备，直到连接成功为止。
-######后台一直扫描会消耗资源，可以通过通过开启扫描和停止扫描来控制后台的扫描
-######当未startClient()时候，调用startSearch()和stopSearch()是没有效果的
-######当已经连接到mesh网的时候，调用startSearch和stopSearch是没有效果的
+###### 开启连接后，会在后台不断的去扫描周围可连接设备，直到连接成功为止。
+###### 后台一直扫描会消耗资源，可以通过通过开启扫描和停止扫描来控制后台的扫描
+###### 当未startClient()时候，调用startSearch()和stopSearch()是没有效果的
+###### 当已经连接到mesh网的时候，调用startSearch和stopSearch是没有效果的
 
 
 
@@ -130,7 +130,7 @@ TuyaHomeSdk.getTuyaBlueMeshClient().stopSearch();
 ##### 【描述】
 扫描前需要检查蓝牙和位置权限
 
-#####【方法调用】
+##### 【方法调用】
 ```
 //开启扫描
 mMeshSearch.startSearch();
@@ -321,18 +321,18 @@ if(deviceBean.isBleMesh()){
 
 
 ### 大小类介绍
-#####Mesh产品目前分为五大类
+#####  Mesh产品目前分为五大类
 	  灯大类(01): 1-5路RGBWC彩灯
 	  电工类(02)：1-6路插座
 	  传感器类(04)：门磁、PIR（传感类主要是一些周期性上报的传感数据）
 	  执行器类(10)：马达、报警器之类用于执行的设备
 	  适配器(08)：网关（带有mesh及其他通信节点的适配器）
-#####小类编号
+#####  小类编号
 	  1-5路灯（01-05）
 	  1-6路排插（01-06)
 	  .....
 
-#####举例
+#####  举例
 ```
 四路灯  		0401
 五路插座		0502
@@ -341,8 +341,8 @@ if(deviceBean.isBleMesh()){
 ```
 
 
-### 控制指令下发
-#####【指令格式】
+###  控制指令下发
+#####  【指令格式】
 发送控制指令按照以下格式： {"(dpId)":"(dpValue)"}  
 
 ##### 【方法调用】
@@ -397,11 +397,11 @@ mTuyaBlueMeshDevice.multicastDps(groupBean.getLocalId(), devBean.getCategory(), 
         });
 
 ```
-### 数据监听
-#####【描述】
+###  数据监听
+##### 【描述】
 mesh网内相关信息（dp数据、状态变更、设备名称、设备移除）会实时同步到 IMeshDevListener 
 
-#####【实现回调】
+##### 【实现回调】
 ```
 mTuyaBlueMeshDevice.registerMeshDevListener(new IMeshDevListener() {
 
@@ -473,9 +473,9 @@ mTuyaBlueMeshDevice.registerMeshDevListener(new IMeshDevListener() {
 
 
 ### 创建群组
-#####【指令格式】
+##### 【指令格式】
 mesh网内支持创建 28672 个群组  返回时id范围 8000 ~ EFFF  （16进制）  由本地进行维护
-##### 【方法调用】
+#####  【方法调用】
 ```
 * @param name			群组名称
 * @param pcc			群组中设备的大小类  (支持跨小类创建  FF01 表示覆盖灯大类)
@@ -501,7 +501,7 @@ mITuyaBlueMesh.addGroup("群组名称","大小类", "8001", new IAddGroupCallbac
         });
 ```
 
-### 子设备重命名
+###  子设备重命名
 ##### 【方法调用】
 ```
 * @param devId    	 设备Id
@@ -526,8 +526,8 @@ public void renameMeshSubDev(String devId, String name, IResultCallback callback
         });
 ```
 
-### 子设备移除
-##### 【方法调用】
+###  子设备移除
+#####  【方法调用】
 ```
 * @param devId    	 设备Id
 * @param pcc  		 设备大小类
@@ -535,7 +535,7 @@ public void renameMeshSubDev(String devId, String name, IResultCallback callback
 public void removeMeshSubDev(String devId, String pcc, IResultCallback callback) ;
 
 ```
-##### 【代码范例】
+#####  【代码范例】
 ```
 mTuyaBlueMesh.removeMeshSubDev(devBean.getDevId(),devBean.getCategory(), new IResultCallback() {
             @Override
@@ -555,7 +555,7 @@ mTuyaBlueMesh.removeMeshSubDev(devBean.getDevId(),devBean.getCategory(), new IRe
 ##### 【说明】
 云端获取到的dp点数据可能不是当前设备实时的数据，可以通过该命令去查询设备的当前数据值，结果通过IMeshDevListener的onDpUpdate方法返回
 
-##### 【方法调用】
+#####  【方法调用】
 ```
 * @param pcc  		 设备大小类
 * @param nodeId    	 设备nodeId
@@ -564,7 +564,7 @@ public void querySubDevStatusByLocal(String pcc, final String nodeId, final IRes
 
 ```
 
-##### 【代码范例】
+#####  【代码范例】
 ```
  mTuyaBlueMeshDevice.querySubDevStatusByLocal(devBean.getCategory(), devBean.getNodeId(), new IResultCallback() {
             @Override
@@ -586,7 +586,7 @@ ITuyaGroup类提供了对Mesh群组的操作
 ### Mesh群组判断方法
 
 可以通过群组中是否具备MeshId来区分Mesh群组和普通wifi群组
-##### 【代码范例】
+#####  【代码范例】
 
 ```
 GroupBean groupBean=TuyaHomeSdk.getDataInstance().getGroupBean("groupId");
