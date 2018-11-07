@@ -702,6 +702,32 @@ mGroup.renameGroup("群组名称",new IResultCallback() {
 ## 1.6 Mesh子设备升级
 子设备升级分为2种，一种是普通设备升级，一种是mesh网关升级
 
+### 子设备升级信息获取
+```
+TuyaHomeSdk.getMeshInstance().requestUpgradeInfo(mDevID, new IRequestUpgradeInfoCallback() {
+    @Override
+    public void onSuccess(ArrayList<BLEUpgradeBean> bleUpgradeBeans) {
+    	for (BLEUpgradeBean bean : bleUpgradeBeans) {
+             if (bean.isNeedUpgrade()) {
+				if (bean.getGw().getType() == 0) {
+					//wifi模块需要升级
+				}else{
+					//蓝牙模块需要升级
+					//需要手动下载ota固件
+					url=bean.getGw().getUrl()
+				}
+             }else{
+                 //无需更新
+             }
+		 }
+    }
+
+    @Override
+    public void onError(String errorCode, String errorMsg) {
+    }
+});
+```
+
 ### 普通子设备升级
 ##### 【初始化参数配置】
 ```
