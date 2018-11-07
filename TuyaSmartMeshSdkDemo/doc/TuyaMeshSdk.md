@@ -708,7 +708,7 @@ TuyaHomeSdk.getMeshInstance().requestUpgradeInfo(mDevID, new IRequestUpgradeInfo
     @Override
     public void onSuccess(ArrayList<BLEUpgradeBean> bleUpgradeBeans) {
     	for (BLEUpgradeBean bean : bleUpgradeBeans) {
-             if (bean.isNeedUpgrade()) {
+             if (bean.getUpgradeStatus()==1) {
 				if (bean.getGw().getType() == 0) {
 					//wifi模块需要升级
 				}else{
