@@ -709,12 +709,12 @@ TuyaHomeSdk.getMeshInstance().requestUpgradeInfo(mDevID, new IRequestUpgradeInfo
     public void onSuccess(ArrayList<BLEUpgradeBean> bleUpgradeBeans) {
     	for (BLEUpgradeBean bean : bleUpgradeBeans) {
              if (bean.getUpgradeStatus()==1) {
-				if (bean.getGw().getType() == 0) {
+				if (bean.getType() == 0) {
 					//wifi模块需要升级
-				}else{
+				}else if(bean.getType == 1){
 					//蓝牙模块需要升级
 					//需要手动下载ota固件
-					url=bean.getGw().getUrl()
+					url=bean.getUrl()
 				}
              }else{
                  //无需更新
