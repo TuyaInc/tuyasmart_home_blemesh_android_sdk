@@ -36,7 +36,7 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
 
 
     private void initView() {
-        tv_tip = findViewById(R.id.tv_tip);
+        tv_tip = (TextView) findViewById(R.id.tv_tip);
     }
 
 
@@ -139,7 +139,6 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
                 Intent intent=new Intent(this,MeshDevcieListActivity.class);
                 intent.putExtra("extra_home_id",FamilyPresenter.getCurrentHomeBean().getHomeId());
                 intent.putExtra("extra_mesh_id",MeshPresenter.getCurrentMeshBean().getMeshId());
-
                 startActivity(intent);
             }else {
                 Toast.makeText(this, "请先初始化Mesh", Toast.LENGTH_SHORT).show();
