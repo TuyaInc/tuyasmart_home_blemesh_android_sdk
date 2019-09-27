@@ -6,4 +6,5 @@ package com.smart.tuya.meshdemo.view;
 
 public interface IMeshDemoView {
     void updateTip();
+    void initMeshPresenter();
 }

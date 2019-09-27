@@ -58,7 +58,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:onClick="doChoiceFamily"
-
                 android:text="初始化家庭" />
 
             <Button

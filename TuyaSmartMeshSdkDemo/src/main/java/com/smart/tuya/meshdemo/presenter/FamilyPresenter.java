@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.orhanobut.dialogplus.DialogPlus;
@@ -18,7 +16,6 @@ import com.orhanobut.dialogplus.ViewHolder;
 import com.smart.tuya.meshdemo.R;
 import com.smart.tuya.meshdemo.utils.ProgressUtil;
 import com.smart.tuya.meshdemo.view.IMeshDemoView;
-import com.tuya.smart.android.common.utils.L;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 import com.tuya.smart.home.sdk.api.ITuyaHome;
 import com.tuya.smart.home.sdk.bean.HomeBean;
@@ -83,7 +80,6 @@ public class FamilyPresenter {
             @Override
             public void onSuccess(HomeBean homeBean) {
                 Toast.makeText(mContext, "创建家庭成功", Toast.LENGTH_SHORT).show();
-
             }
 
             @Override

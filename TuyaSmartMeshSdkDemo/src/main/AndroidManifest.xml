@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.smart.tuya.meshdemo">
-
     <!-- sdcard -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.READ_PHONE_STATE"
-        android:required="false" />
-    <!-- 网络 -->
+        android:required="false" /> <!-- 网络 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -30,6 +28,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.SigMeshControlActivity"></activity>
+
         <meta-data
             android:name="TUYA_SMART_APPKEY"
             android:value="appkey" />
@@ -73,15 +73,15 @@
                 <category android:name="tuya" />
             </intent-filter>
         </service>
-
-        <service android:name="com.tuya.smart.mqtt.MqttService" android:stopWithTask="true"/>
-
+        <service
+            android:name="com.tuya.smart.mqtt.MqttService"
+            android:stopWithTask="true" />
 
         <activity
             android:name=".activity.ConfigTipActivity"
             android:theme="@style/dialog" />
         <activity android:name=".activity.MeshDevcieListActivity" />
-        <activity android:name=".activity.LightControlActivity" />
+        <activity android:name=".activity.MeshControlActivity" />
         <activity
             android:name=".activity.MeshGroupActivity"
             android:label="@string/title_activity_mesh_group"
@@ -89,7 +89,7 @@
         <activity
             android:name=".activity.MeshGroupDevListActivity"
             android:label="@string/title_activity_mesh_group_dev_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

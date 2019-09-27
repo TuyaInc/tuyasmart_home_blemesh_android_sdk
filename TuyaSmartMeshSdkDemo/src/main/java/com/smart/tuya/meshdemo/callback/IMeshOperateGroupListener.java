@@ -10,7 +10,9 @@ import java.util.ArrayList;
 
 public interface IMeshOperateGroupListener {
     void operateSuccess(DeviceBean bean, int index);
+
     void operateFinish(ArrayList<DeviceBean> failList);
+
     void operateFail(DeviceBean bean, int index);
 
 }

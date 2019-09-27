@@ -7,18 +7,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.smart.tuya.meshdemo.R;
 import com.smart.tuya.meshdemo.bean.DeviceUiBean;
-import com.tuya.smart.sdk.bean.DeviceBean;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 /**

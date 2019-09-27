@@ -1,6 +1,5 @@
 package com.smart.tuya.meshdemo.view;
 
-import com.tuya.smart.sdk.bean.DeviceBean;
 import com.tuya.smart.sdk.bean.GroupBean;
 
 import java.util.List;

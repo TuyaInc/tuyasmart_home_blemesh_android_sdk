@@ -7,23 +7,28 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.smart.tuya.meshdemo.Config.MeshTypeConfig;
 import com.smart.tuya.meshdemo.R;
+import com.smart.tuya.meshdemo.presenter.IMeshPresenter;
+import com.smart.tuya.meshdemo.presenter.PresenterFactory;
+import com.smart.tuya.meshdemo.presenter.bluemesh.BlueMeshPresenter;
 import com.smart.tuya.meshdemo.presenter.FamilyPresenter;
 import com.smart.tuya.meshdemo.presenter.LoginPresenter;
-import com.smart.tuya.meshdemo.presenter.MeshPresenter;
+import com.smart.tuya.meshdemo.presenter.MeshTypePresenter;
 import com.smart.tuya.meshdemo.view.IMeshDemoView;
-import com.tuya.smart.android.user.api.ILogoutCallback;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
 
-import static com.smart.tuya.meshdemo.presenter.MeshPresenter.GPS_REQUEST_CODE;
-import static com.smart.tuya.meshdemo.presenter.MeshPresenter.REQUEST_OPEN_BLE;
+import static com.smart.tuya.meshdemo.presenter.bluemesh.BlueMeshPresenter.GPS_REQUEST_CODE;
+import static com.smart.tuya.meshdemo.presenter.bluemesh.BlueMeshPresenter.REQUEST_OPEN_BLE;
 
 public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView {
     private LoginPresenter mLoginPresenter;
     private FamilyPresenter mFamilyPresenter;
-    private MeshPresenter mMeshPresenter;
-
+    private BlueMeshPresenter mBlueMeshPresenter;
+    private IMeshPresenter mMeshPresenter;
+    private MeshTypePresenter mMeshTypePresenter;
     private TextView tv_tip;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,7 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
         initData();
         initView();
         updateTip();
+        choiceMeshType();
     }
 
 
@@ -39,12 +45,18 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
         tv_tip = findViewById(R.id.tv_tip);
     }
 
-
+    public void choiceMeshType() {
+        mMeshTypePresenter.choice();
+    }
+    @Override
+    public void initMeshPresenter() {
+        mMeshPresenter = PresenterFactory.getMeshPresenter(this, this, MeshTypeConfig.getType());
+    }
     private void initData() {
         mLoginPresenter = new LoginPresenter(this, this);
         mFamilyPresenter = new FamilyPresenter(this, this);
-        mMeshPresenter = new MeshPresenter(this, this);
-
+        mBlueMeshPresenter = new BlueMeshPresenter(this, this);
+        mMeshTypePresenter = new MeshTypePresenter(this, this);
     }
 
     public void doRegister(View view) {
@@ -59,12 +71,15 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
     @Override
     public void updateTip() {
         StringBuilder tipBuilder = new StringBuilder();
-        tipBuilder.append("当前登录用户：" + (TuyaHomeSdk.getUserInstance().getUser() != null ? TuyaHomeSdk.getUserInstance().getUser().getUsername() : ""));
+        tipBuilder.append("当前Mesh类型：" + (mMeshTypePresenter.getMeshTypeString()));
+        tipBuilder.append("\n当前登录用户：" + (TuyaHomeSdk.getUserInstance().getUser() != null ? TuyaHomeSdk.getUserInstance().getUser().getUsername() : ""));
         tipBuilder.append("\n当前家庭：" + (FamilyPresenter.getCurrentHomeBean() != null ? FamilyPresenter.getCurrentHomeBean().getName() : ""));
-        tipBuilder.append("\n当前Mesh：" + (MeshPresenter.getCurrentMeshBean() != null ? MeshPresenter.getCurrentMeshBean().getName() : ""));
+        tipBuilder.append("\n当前Mesh：" + (mMeshPresenter == null ? "" : mMeshPresenter.getMeshName()));
 
         tv_tip.setText(tipBuilder.toString());
     }
+
+
 
     public void doCreateFamily(View view) {
         mFamilyPresenter.showCreateDialog();
@@ -73,6 +88,7 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
     public void doChoiceFamily(View view) {
         mFamilyPresenter.queryHomeList();
     }
+
 
     public void doCreateMesh(View view) {
         if (mFamilyPresenter.getCurrentHomeBean() != null) {
@@ -84,7 +100,8 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
 
     public void doRemoveMesh(View view) {
         if (mFamilyPresenter.getCurrentHomeBean() != null) {
-            mMeshPresenter.showMeshList(mFamilyPresenter.getCurrentHomeBean().getHomeId(),1);
+            mMeshPresenter.showMeshList(mFamilyPresenter.getCurrentHomeBean().getHomeId(), 1);
+
         } else {
             Toast.makeText(this, "请先初始化家庭", Toast.LENGTH_SHORT).show();
         }
@@ -92,7 +109,8 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
 
     public void doInitMesh(View view) {
         if (mFamilyPresenter.getCurrentHomeBean() != null) {
-            mMeshPresenter.showMeshList(mFamilyPresenter.getCurrentHomeBean().getHomeId(),0);
+            mMeshPresenter.showMeshList(mFamilyPresenter.getCurrentHomeBean().getHomeId(), 0);
+
         } else {
             Toast.makeText(this, "请先初始化家庭", Toast.LENGTH_SHORT).show();
         }
@@ -111,22 +129,21 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GPS_REQUEST_CODE) {
             if (resultCode == 0) {
-                mMeshPresenter.check();
+                mBlueMeshPresenter.check();
             }
         } else if (requestCode == REQUEST_OPEN_BLE) {
             if (resultCode == RESULT_OK) {
-                mMeshPresenter.check();
+                mBlueMeshPresenter.check();
             }
         }
     }
 
     public void doMeshConfig(View view) {
         if (FamilyPresenter.getCurrentHomeBean() != null) {
-            if(MeshPresenter.getCurrentMeshBean()!=null){
+            if (!mMeshPresenter.getMeshName().equals("")) {
                 mMeshPresenter.showSearchList(mFamilyPresenter.getCurrentHomeBean().getHomeId());
-            }else {
+            } else {
                 Toast.makeText(this, "请先初始化Mesh", Toast.LENGTH_SHORT).show();
-
             }
         } else {
             Toast.makeText(this, "请先初始化家庭", Toast.LENGTH_SHORT).show();
@@ -135,13 +152,13 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
 
     public void doDeviceControl(View view) {
         if (FamilyPresenter.getCurrentHomeBean() != null) {
-            if(MeshPresenter.getCurrentMeshBean()!=null){
-                Intent intent=new Intent(this,MeshDevcieListActivity.class);
-                intent.putExtra("extra_home_id",FamilyPresenter.getCurrentHomeBean().getHomeId());
-                intent.putExtra("extra_mesh_id",MeshPresenter.getCurrentMeshBean().getMeshId());
+            if (!mMeshPresenter.getMeshName().equals("")) {
+                Intent intent = new Intent(this, MeshDevcieListActivity.class);
+                intent.putExtra("extra_home_id", FamilyPresenter.getCurrentHomeBean().getHomeId());
+                intent.putExtra("extra_mesh_id", mMeshPresenter.getMeshId());
 
                 startActivity(intent);
-            }else {
+            } else {
                 Toast.makeText(this, "请先初始化Mesh", Toast.LENGTH_SHORT).show();
 
             }
@@ -156,13 +173,13 @@ public class MeshDemoActivity extends AppCompatActivity implements IMeshDemoView
 
     public void doGroupControl(View view) {
         if (FamilyPresenter.getCurrentHomeBean() != null) {
-            if(MeshPresenter.getCurrentMeshBean()!=null){
-                Intent intent=new Intent(this,MeshGroupActivity.class);
-                intent.putExtra("extra_home_id",FamilyPresenter.getCurrentHomeBean().getHomeId());
-                intent.putExtra("extra_mesh_id",MeshPresenter.getCurrentMeshBean().getMeshId());
+            if (!mMeshPresenter.getMeshName().equals("")) {
+                Intent intent = new Intent(this, MeshGroupActivity.class);
+                intent.putExtra("extra_home_id", FamilyPresenter.getCurrentHomeBean().getHomeId());
+                intent.putExtra("extra_mesh_id", mMeshPresenter.getMeshId());
 
                 startActivity(intent);
-            }else {
+            } else {
                 Toast.makeText(this, "请先初始化Mesh", Toast.LENGTH_SHORT).show();
 
             }

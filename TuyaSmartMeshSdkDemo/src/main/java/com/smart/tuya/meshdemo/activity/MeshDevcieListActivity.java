@@ -7,18 +7,16 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import com.smart.tuya.meshdemo.R;
 import com.smart.tuya.meshdemo.adapter.DeviceListAdapter;
 import com.smart.tuya.meshdemo.bean.DeviceUiBean;
-import com.smart.tuya.meshdemo.presenter.MeshDeviceListPresenter;
+import com.smart.tuya.meshdemo.presenter.IMeshListPresenter;
+import com.smart.tuya.meshdemo.presenter.PresenterFactory;
 import com.smart.tuya.meshdemo.view.IMeshDeviceListView;
-import com.tuya.smart.android.common.utils.L;
 import com.tuya.smart.android.common.utils.NetworkUtil;
 import com.tuya.smart.home.sdk.TuyaHomeSdk;
-import com.tuya.smart.sdk.bean.BlueMeshBean;
 import com.tuya.smart.sdk.bean.DeviceBean;
 
 import java.util.ArrayList;
@@ -32,7 +30,7 @@ public class MeshDevcieListActivity extends AppCompatActivity implements DeviceL
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private DeviceListAdapter mDeviceAdapter;
     private RecyclerView mDevListView;
-    private MeshDeviceListPresenter meshDeviceListPresenter;
+    private IMeshListPresenter meshListPresenter;
     private long homeId;
     private String meshId;
     @Override
@@ -54,8 +52,7 @@ public class MeshDevcieListActivity extends AppCompatActivity implements DeviceL
 
 
         updateUi(deviceBeanList);
-
-        meshDeviceListPresenter=new MeshDeviceListPresenter(this,this,homeId,meshId);
+        meshListPresenter= PresenterFactory.getMeshListPresenter(this,this,homeId,meshId);
     }
 
     public void updateUi(List<DeviceBean> deviceBeanList) {
@@ -113,7 +110,7 @@ public class MeshDevcieListActivity extends AppCompatActivity implements DeviceL
             @Override
             public void onRefresh() {
                 if (NetworkUtil.isNetworkAvailable(MeshDevcieListActivity.this)) {
-                    meshDeviceListPresenter.getDataFromServer();
+                    meshListPresenter.getDataFromServer();
                 } else {
                     Toast.makeText(MeshDevcieListActivity.this,"网络错误,请检查网络",Toast.LENGTH_SHORT).show();
                     loadFinish();
@@ -134,37 +131,37 @@ public class MeshDevcieListActivity extends AppCompatActivity implements DeviceL
 
     @Override
     public void itemOnClick(String devId) {
-        meshDeviceListPresenter.itemOnClick(devId);
+        meshListPresenter.itemOnClick(devId);
     }
 
     @Override
     public void itemOnLongClick(String devId) {
-        meshDeviceListPresenter.itemOnLongClick(devId);
+        meshListPresenter.itemOnLongClick(devId);
     }
 
     public void doStartClient(View view) {
-        meshDeviceListPresenter.startClient();
+        meshListPresenter.startClient();
     }
 
     public void doStopClient(View view) {
-        meshDeviceListPresenter.stopClient();
+        meshListPresenter.stopClient();
     }
 
     public void doGetStatus(View view){
-        meshDeviceListPresenter.getStatusAll();
+        meshListPresenter.getStatusAll();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        meshDeviceListPresenter.onDestroy();
+        meshListPresenter.onDestroy();
     }
 
     public void doCloseAll(View view) {
-        meshDeviceListPresenter.doCloseAll();
+        meshListPresenter.doCloseAll();
     }
 
     public void doOpenAll(View view) {
-        meshDeviceListPresenter.doOpenAll();
+        meshListPresenter.doOpenAll();
     }
 }

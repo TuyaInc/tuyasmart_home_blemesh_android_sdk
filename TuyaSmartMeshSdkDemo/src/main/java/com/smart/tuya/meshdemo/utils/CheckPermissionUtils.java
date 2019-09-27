@@ -3,11 +3,9 @@ package com.smart.tuya.meshdemo.utils;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.TypedArray;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -20,10 +18,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by zhusg on 2018/5/26.

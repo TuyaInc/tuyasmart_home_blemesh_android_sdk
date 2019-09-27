@@ -2,35 +2,31 @@ package com.smart.tuya.meshdemo.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
 import com.smart.tuya.meshdemo.R;
 import com.smart.tuya.meshdemo.adapter.MeshGroupDevListAdapter;
-import com.smart.tuya.meshdemo.presenter.MeshGroupDeviceListPresenter;
+import com.smart.tuya.meshdemo.presenter.IMeshGroupDeviceListPresenter;
+import com.smart.tuya.meshdemo.presenter.PresenterFactory;
 import com.smart.tuya.meshdemo.view.IMeshGroupDeviceListView;
 import com.tuya.smart.sdk.bean.DeviceBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MeshGroupDevListActivity extends AppCompatActivity implements MeshGroupDevListAdapter.OnClickSelectListener ,IMeshGroupDeviceListView,View.OnClickListener {
     private MeshGroupDevListAdapter mGroupDeviceAdapter;
     private RecyclerView mGroupListView;
-    private MeshGroupDeviceListPresenter mGroupDeviceListPresenter;
+    private IMeshGroupDeviceListPresenter meshGroupDeviceListPresenter;
 
     private Button btnConfim;
-
     public static final String EXTRA_GROUP_ID = "extra_groupId";
     public static final String EXTRA_MESH_ID = "extra_meshId";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +42,7 @@ public class MeshGroupDevListActivity extends AppCompatActivity implements MeshG
 
         btnConfim=findViewById(R.id.btn_confirm);
         btnConfim.setOnClickListener(this);
-        mGroupDeviceListPresenter = new MeshGroupDeviceListPresenter(this, this);
+        meshGroupDeviceListPresenter = PresenterFactory.getMeshGroupDeviceListPresenter(this, this);
 
     }
 
@@ -63,7 +59,7 @@ public class MeshGroupDevListActivity extends AppCompatActivity implements MeshG
 
     @Override
     public void onClickSelect(int actionType, DeviceBean bean) {
-        mGroupDeviceListPresenter.onClickSelect(actionType, bean);
+        meshGroupDeviceListPresenter.onClickSelect(actionType, bean);
     }
 
     @Override
@@ -96,17 +92,17 @@ public class MeshGroupDevListActivity extends AppCompatActivity implements MeshG
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_confirm) {
-            mGroupDeviceListPresenter.doConfirm();
+            meshGroupDeviceListPresenter.doConfirm();
         }
     }
 
 
     public void doOpen(View v){
-        mGroupDeviceListPresenter.doOpen();
+        meshGroupDeviceListPresenter.doOpen();
     }
 
     public void doClose(View v){
-        mGroupDeviceListPresenter.doClose();
+        meshGroupDeviceListPresenter.doClose();
 
     }
 }
