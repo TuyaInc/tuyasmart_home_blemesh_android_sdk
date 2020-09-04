@@ -28,7 +28,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SigMeshControlActivity"></activity>
+        <activity android:name=".activity.SigMeshControlActivity" />
 
         <meta-data
             android:name="TUYA_SMART_APPKEY"
@@ -45,37 +45,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name="org.eclipse.paho.android.service.MqttService" />
-
-        <receiver android:name="com.tuya.smart.android.base.broadcast.NetworkBroadcastReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="com.tuya.smart.android.hardware.service.GwBroadcastMonitorService"
-            android:exported="true"
-            android:label="UDPService"
-            android:process=":monitor">
-            <intent-filter>
-                <action android:name="tuya.intent.action.udp" />
-
-                <category android:name="tuya" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.tuya.smart.android.hardware.service.DevTransferService"
-            android:label="TCPService">
-            <intent-filter>
-                <action android:name="tuya.intent.action.tcp" />
-
-                <category android:name="tuya" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.tuya.smart.mqtt.MqttService"
-            android:stopWithTask="true" />
 
         <activity
             android:name=".activity.ConfigTipActivity"

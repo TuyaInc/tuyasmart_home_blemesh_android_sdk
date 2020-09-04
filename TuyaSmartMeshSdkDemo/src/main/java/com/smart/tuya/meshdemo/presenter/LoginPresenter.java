@@ -52,7 +52,7 @@ public class LoginPresenter {
 
     public void loginWithEmail(String countryCode, String email, String passwd){
         //邮箱密码登陆
-        TuyaHomeSdk.getUserInstance().loginWithEmail(countryCode, email, passwd, new ILoginCallback() {
+        TuyaHomeSdk.getUserInstance().loginWithPhonePassword(countryCode, email, passwd, new ILoginCallback() {
             @Override
             public void onSuccess(User user) {
                 Toast.makeText(mContext, "登录成功",Toast.LENGTH_SHORT).show();

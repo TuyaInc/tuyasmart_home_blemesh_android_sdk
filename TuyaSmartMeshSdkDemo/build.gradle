@@ -49,16 +49,16 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:3.5.2'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
-    //--------------------------   以下依赖必加   ---------------------------
-    implementation 'com.alibaba:fastjson:1.1.67.android'
-    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
-    implementation 'de.greenrobot:eventbus:2.4.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
-    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
-    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 
-    implementation 'com.tuya.smart:tuyasmart:3.12.0'
+    //--------------------------   以下依赖必加   ---------------------------
+    //***** required ****//
+    implementation 'com.alibaba:fastjson:1.1.67.android'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.12.3'
+    // Tuya Home 当前最新稳定版本：
+    implementation 'com.tuya.smart:tuyasmart:3.17.8'
+    //***** required ****//
 }
 
 
